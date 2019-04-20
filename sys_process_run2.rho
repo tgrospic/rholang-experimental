@@ -1,0 +1,47 @@
+/*
+Note: this is experimental Rholang code and cannot work with official release.
+
+RNode built from this commit:
+https://github.com/tgrospic/rchain/tree/0cc3eda44a8c2947da79aac16898fc39b5b57c83
+*/
+new proc(`rho:sys:process`), out(`rho:io:stdout`), ack in {
+
+  // Run system process, load Rholang from a file and evaluate
+  proc!("run:rho", ["cat", "http.rho"], *ack) |
+
+  for(@res <= ack) {
+    match res {
+
+      // Drop loaded process and run it
+      (true, proc) => proc
+
+      (false, ex, raw) => {
+        out!(("Exception:", ex)) |
+        out!(("Output:", raw))
+      }
+
+    }
+  }
+}
+
+/*
+
+Evaluating:
+new x0, x1, x2 in {
+  x2!("run:rho", ["cat", "http.rho"], *x0) |
+  for( @{x3} <= x0 ) {
+    match x3 {
+      (true, x4) => {
+        x4
+      }
+      (false, x4, x5) => {
+        x1!(("Exception:", x4)) |
+        x1!(("Output:", x5))
+      }
+    }
+  }
+}
+Run command: List(cat, http.rho)
+("Http result", "{"version":"RChain Node 0.9.3.git50bae411 (50bae41127b4f8c4607dab4b9f367a769ae4c5b9)","peers":1,"nodes":16}")
+
+*/

@@ -1,0 +1,62 @@
+/*
+Note: this is experimental Rholang code and cannot work with official release.
+
+RNode built from this commit:
+https://github.com/tgrospic/rchain/tree/0cc3eda44a8c2947da79aac16898fc39b5b57c83
+*/
+new proc(`rho:sys:process`), out(`rho:io:stdout`), ack in {
+
+  // Run nodejs process and evaluate result as Rholang process
+  // - array is sent to nodejs as JSON
+  proc!("run:rho", ["node", "nodejs_proc.js", ["Sample array", 42]], *ack) |
+
+  // Load JSON from a file as Rholang process
+  proc!("run:rho", ["cat", "object.json"], *ack) |
+
+  for(@res <= ack) {
+
+    match res {
+
+      // Match on the result from nodejs
+      (true, {"fromJS": true, "echo": [text, 42] ..._}) => {
+        out!(("Echo message", text))
+      }
+
+      // Match on the result from JSON file
+      (true, data /\ {"obj": _ ..._}) => out!(("From JSON", data))
+
+      (false, ex, raw) => {
+        out!(("Exception:", ex)) |
+        out!(("Output:", raw))
+      }
+    }
+  }
+}
+
+/*
+
+Evaluating:
+new x0, x1, x2 in {
+  x2!("run:rho", ["cat", "object.json"], *x0) |
+  x2!("run:rho", ["node", "nodejs_proc.js", ["Sample array", 42]], *x0) |
+  for( @{x3} <= x0 ) {
+    match x3 {
+      (true, {"echo" : [x4, 42], "fromJS" : true..._}) => {
+        x1!(("Echo message", x4))
+      }
+      (true, {x4 /\ {"obj" : _..._}}) => {
+        x1!(("From JSON", x4))
+      }
+      (false, x4, x5) => {
+        x1!(("Exception:", x4)) |
+        x1!(("Output:", x5))
+      }
+    }
+  }
+}
+Run command: List(cat, object.json)
+Run command: List(node, nodejs_proc.js, ["Sample array", 42])
+("From JSON", {"array_list" : ["My text value", 42], "obj" : {"key" : 42}})
+("Echo message", "Sample array")
+
+*/

@@ -1,0 +1,28 @@
+/*
+Note: this is experimental Rholang code and cannot work with official release.
+
+RNode built from this commit:
+https://github.com/tgrospic/rchain/tree/0cc3eda44a8c2947da79aac16898fc39b5b57c83
+*/
+new http(`rho:io:http`), out(`rho:io:stdout`), ack in {
+
+  // GET http request directly from RNode
+  http!("http://node1.testnet.rchain-dev.tk:40403/status", *ack) |
+
+  for(@res <- ack) {
+    out!(("Http result", res))
+  }
+}
+
+/*
+
+Evaluating:
+new x0, x1, x2 in {
+  x1!("http://node1.testnet.rchain-dev.tk:40403/status", *x0) |
+  for( @{x3} <- x0 ) {
+    x2!(("Http result", x3))
+  }
+}
+("Http result", "{"version":"RChain Node 0.9.3.git50bae411 (50bae41127b4f8c4607dab4b9f367a769ae4c5b9)","peers":3,"nodes":16}")
+
+*/

@@ -1,0 +1,49 @@
+/*
+Note: this is experimental Rholang code and cannot work with official release.
+*/
+new ser(`rho:io:serialize`), out(`rho:io:stdout`), ack in {
+  match {
+    // Rholang term to be serialized to string
+    new http(`rho:io:http`), out(`rho:io:stdout`), ack in {
+      http!("http://node1.testnet.rchain-dev.tk:40403/status", *ack) |
+      for(@res <- ack) {
+        out!(("Http result", res))
+      }
+    }
+  } {
+    term => {
+      // Serialize Rholang term and print as a string
+      ser!(term, *ack) |
+      for(@res <- ack) {
+        out!(res)
+      }
+    }
+  }
+}
+
+/*
+
+Evaluating:
+new x0, x1, x2 in {
+  match new x3, x4, x5 in {
+  x4!("http://node1.testnet.rchain-dev.tk:40403/status", *x3) |
+  for( @{x6} <- x3 ) {
+    x5!(("Http result", x6))
+  }
+} {
+    x3 => {
+      x1!(x3, *x0) |
+      for( @{x4} <- x0 ) {
+        x2!(x4)
+      }
+    }
+  }
+}
+"new x0, x1, x2 in {
+  x1!("http://node1.testnet.rchain-dev.tk:40403/status", *x0) |
+  for( @{x3} <- x0 ) {
+    x2!(("Http result", x3))
+  }
+}"
+
+*/

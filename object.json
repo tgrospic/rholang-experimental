@@ -1,0 +1,9 @@
+/*
+JSON (with comments) can be parsed by Rholang parser.
+*/
+{
+  "array_list": ["My text value", 42],
+  "obj": {
+    "key": 42,
+  },
+}
