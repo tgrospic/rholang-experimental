@@ -2,7 +2,7 @@
 Note: this is experimental Rholang code and cannot work with official release.
 
 RNode built from this commit:
-https://github.com/tgrospic/rchain/tree/0cc3eda44a8c2947da79aac16898fc39b5b57c83
+https://github.com/tgrospic/rchain/tree/8458e467e95739538965782947fb8b51404ce4bb
 */
 new proc(`rho:sys:process`), out(`rho:io:stdout`), ack in {
 
@@ -44,13 +44,13 @@ new x0, x1, x2 in {
     }
   }
 }
-Run command: List(rnode, --version)
 Run command: List(cat, sys_process_run1.rho)
+Run command: List(rnode, --version)
 "/*
 Note: this is experimental Rholang code and cannot work with official release.
 
 RNode built from this commit:
-https://github.com/tgrospic/rchain/tree/0cc3eda44a8c2947da79aac16898fc39b5b57c83
+https://github.com/tgrospic/rchain/tree/8458e467e95739538965782947fb8b51404ce4bb
 *\/
 new proc(`rho:sys:process`), out(`rho:io:stdout`), ack in {
 
@@ -74,7 +74,9 @@ new proc(`rho:sys:process`), out(`rho:io:stdout`), ack in {
   }
 }
 "
-"RChain Node 0.9.3.git58439a2d
+"RChain Node 0.9.4.git2ab6a8b0
 "
+
+Deployment cost: Cost(3178,)
 
 */

@@ -5,17 +5,19 @@ new ser(`rho:io:serialize`), out(`rho:io:stdout`), ack in {
   match {
     // Rholang term to be serialized to string
     new http(`rho:io:http`), out(`rho:io:stdout`), ack in {
-      http!("http://node1.testnet.rchain-dev.tk:40403/status", *ack) |
+      http!("GET", "http://node1.testnet.rchain-dev.tk:40403/status", Nil, *ack) |
       for(@res <- ack) {
         out!(("Http result", res))
       }
     }
   } {
     term => {
+      // Execute Rholang term
+      term |
       // Serialize Rholang term and print as a string
       ser!(term, *ack) |
       for(@res <- ack) {
-        out!(res)
+        out!(("Serialized", res))
       }
     }
   }

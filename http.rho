@@ -2,12 +2,12 @@
 Note: this is experimental Rholang code and cannot work with official release.
 
 RNode built from this commit:
-https://github.com/tgrospic/rchain/tree/0cc3eda44a8c2947da79aac16898fc39b5b57c83
+https://github.com/tgrospic/rchain/tree/8458e467e95739538965782947fb8b51404ce4bb
 */
 new http(`rho:io:http`), out(`rho:io:stdout`), ack in {
 
   // GET http request directly from RNode
-  http!("http://node1.testnet.rchain-dev.tk:40403/status", *ack) |
+  http!("GET", "http://node1.testnet.rchain-dev.tk:40403/status", Nil, *ack) |
 
   for(@res <- ack) {
     out!(("Http result", res))
@@ -18,11 +18,11 @@ new http(`rho:io:http`), out(`rho:io:stdout`), ack in {
 
 Evaluating:
 new x0, x1, x2 in {
-  x1!("http://node1.testnet.rchain-dev.tk:40403/status", *x0) |
+  x1!("GET", "http://node1.testnet.rchain-dev.tk:40403/status", Nil, *x0) |
   for( @{x3} <- x0 ) {
     x2!(("Http result", x3))
   }
 }
-("Http result", "{"version":"RChain Node 0.9.3.git50bae411 (50bae41127b4f8c4607dab4b9f367a769ae4c5b9)","peers":3,"nodes":16}")
+("Http result", (true, {"nodes" : 66, "peers" : 7, "version" : "RChain Node 0.9.4.git19cd019e (19cd019ec8f27da661283929958fa74c7cb52342)"}))
 
 */

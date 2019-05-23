@@ -1,0 +1,97 @@
+/*
+Note: this is experimental Rholang code and cannot work with official release.
+
+RNode built from this commit:
+https://github.com/tgrospic/rchain/tree/8458e467e95739538965782947fb8b51404ce4bb
+*/
+new http(`rho:io:http`), out(`rho:io:stdout`), result, send, loop in {
+
+  contract send(@msg) = {
+    http!("POST", "http://localhost:9898/sendAsync", msg, Nil)
+  } |
+
+  contract loop(@msg) = {
+    // out!(("LOOP", msg)) |
+    // Long-polling request, RNode receive message from WebSocket
+    http!("POST", "http://localhost:9898/send", msg, *result)
+  } |
+  loop!({"status": "STARTED"}) |
+
+  for(@res <= result) {
+    match res {
+
+      (true, "EXIT") => {
+        // For exit do nothing and die
+        out!("Exiting the loop. Bye bye!")
+      }
+
+      (true, msg /\ String) => {
+        out!(("String", res)) |
+        // Replicate HTTP request for another message
+        loop!(msg)
+      }
+
+      // Echo service
+      (true, {"echo": val}) => {
+        out!(("Echo", val)) |
+        send!(val) |
+        loop!(("Echo", val))
+      }
+
+      // Get url
+      (true, {"url": url}) => {
+        new ack in {
+          // "http://node1.testnet.rchain-dev.tk:40403/status"
+          http!("GET", url, Nil, *ack) |
+          for(@res <- ack) {
+            // Replicate HTTP request for another message
+            send!(res)
+          }
+        } |
+        loop!(("Url", url)) |
+        out!(("Url", url))
+      }
+
+      // Execute command
+      (true, {"cmd": cmd}) => {
+        new proc(`rho:sys:process`), ack in {
+          proc!("run", cmd, *ack) |
+          for(@res <- ack) {
+            send!(res)
+          }
+        } |
+        loop!(("Command", cmd)) |
+        out!(("Command", cmd))
+      }
+
+      // Drop process
+      (true, proc) => {
+        proc |
+        // out!(("Proc", proc)) |
+        // Replicate HTTP request for another message
+        loop!(proc)
+      }
+
+      // ERRORS
+
+      (false, ex /\ "Read timed out") => {
+        // out!("Timeout - do repeat") |
+        // Replicate HTTP request timeout expired
+        loop!({"status": "RECONNECT"})
+      }
+
+      (false, code /\ Int) => {
+        out!(("HTTP error:", code))
+      }
+
+      (false, ex /\ String) => {
+        out!(("Exception:", ex))
+      }
+
+      res => {
+        out!(("RAW:", res))
+      }
+
+    }
+  }
+}

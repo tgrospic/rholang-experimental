@@ -1,0 +1,24 @@
+{
+  "name": "@tgrospic/js",
+  "version": "1.0.0",
+  "author": "",
+  "license": "MIT",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel demo/index.html",
+    "start1": "parcel demo/ver1/index.html"
+  },
+  "devDependencies": {
+    "less": "^3.9.0",
+    "parcel": "^1.12.3"
+  },
+  "dependencies": {
+    "antd": "^3.18.2",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "ws": "^7.0.0"
+  }
+}
