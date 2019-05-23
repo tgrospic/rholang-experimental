@@ -27,7 +27,7 @@ new http(`rho:io:http`), out(`rho:io:stdout`), result, send, loop in {
 
       (true, msg /\ String) => {
         out!(("String", res)) |
-        // Replicate HTTP request for another message
+        // Keep HTTP connection open (awaiting response)
         loop!(msg)
       }
 
@@ -44,10 +44,10 @@ new http(`rho:io:http`), out(`rho:io:stdout`), result, send, loop in {
           // "http://node1.testnet.rchain-dev.tk:40403/status"
           http!("GET", url, Nil, *ack) |
           for(@res <- ack) {
-            // Replicate HTTP request for another message
             send!(res)
           }
         } |
+        // Keep HTTP connection open (awaiting response)
         loop!(("Url", url)) |
         out!(("Url", url))
       }
@@ -68,7 +68,7 @@ new http(`rho:io:http`), out(`rho:io:stdout`), result, send, loop in {
       (true, proc) => {
         proc |
         // out!(("Proc", proc)) |
-        // Replicate HTTP request for another message
+        // Keep HTTP connection open (awaiting response)
         loop!(proc)
       }
 
