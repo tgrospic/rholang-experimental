@@ -1,7 +1,7 @@
 # Rholang experimental
 
 RNode is built from this commit (official version will not work):
-https://github.com/tgrospic/rchain/tree/8458e467e95739538965782947fb8b51404ce4bb
+https://github.com/tgrospic/rchain/tree/http-proc
 
 ## 1. Start web server for static site _http://localhost:1234_ (with Parcel)
 

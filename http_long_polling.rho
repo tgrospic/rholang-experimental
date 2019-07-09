@@ -2,7 +2,7 @@
 Note: this is experimental Rholang code and cannot work with official release.
 
 RNode built from this commit:
-https://github.com/tgrospic/rchain/tree/8458e467e95739538965782947fb8b51404ce4bb
+https://github.com/tgrospic/rchain/tree/http-proc
 */
 new http(`rho:io:http`), out(`rho:io:stdout`), result, send, loop in {
 
