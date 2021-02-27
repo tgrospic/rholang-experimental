@@ -1,5 +1,7 @@
 # Rholang experimental
 
+**Demo** (part of RNode testing session): https://youtu.be/XjHblsOQuOk?t=3339
+
 RNode is built from this commit (official version will not work):
 https://github.com/tgrospic/rchain/tree/http-proc
 
