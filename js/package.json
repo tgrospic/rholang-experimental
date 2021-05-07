@@ -1,6 +1,6 @@
 {
   "name": "@tgrospic/js",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "author": "",
   "license": "MIT",
   "description": "",
@@ -10,15 +10,17 @@
     "start1": "parcel demo/ver1/index.html"
   },
   "devDependencies": {
-    "less": "^3.9.0",
-    "parcel": "^1.12.3"
+    "@parcel/transformer-less": "^2.0.0-beta.2",
+    "less": "^4.1.1",
+    "parcel": "^2.0.0-beta.2"
   },
   "dependencies": {
-    "antd": "^3.18.2",
+    "@ant-design/icons": "^4.6.2",
+    "antd": "^4.15.4",
     "body-parser": "^1.19.0",
-    "express": "^4.17.0",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "ws": "^7.0.0"
+    "express": "^4.17.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "ws": "^7.4.5"
   }
 }

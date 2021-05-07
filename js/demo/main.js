@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { render } from 'react-dom'
-import { Alert, Layout, Button, Menu, Dropdown, Icon } from 'antd'
+import { Alert, Layout, Button, Menu, Dropdown } from 'antd'
+import { DownCircleTwoTone } from '@ant-design/icons'
 import TextArea from 'antd/lib/input/TextArea';
 
 // Import Ant Design styles
 import '../node_modules/antd/dist/antd.css'
 
 import './index.less'
+
+const { Header, Content, Footer, Sider } = Layout
 
 const { log } = console
 
@@ -55,7 +58,7 @@ const MenuExamples = ({clicked}) => {
   return <>
     <Dropdown overlay={menu}>
       <a className="ant-dropdown-link" href="#">
-        Examples <Icon type="down" />
+        Examples <DownCircleTwoTone />
       </a>
     </Dropdown>
   </>
@@ -112,7 +115,7 @@ const Main = () => {
 
   return <>
     <Layout>
-      <Layout.Content style={{ padding: '10px' }}>
+      <Content style={{ padding: '10px' }}>
         <SocketConnection text={conn} isOn={isOn} />
         <p></p>
         <SendMessage msg={msg} setMsg={setMsg} sendMsg={sendMsg} />
@@ -120,7 +123,9 @@ const Main = () => {
         <div className="status" style={{backgroundColor: bg}}>
           {msgList.map((x, i) => <div key={i}>{x}</div>)}
         </div>
-      </Layout.Content>
+        <h1>SDGFDSF S F</h1>
+        <p>sdfsfsdfd</p>
+      </Content>
     </Layout>
   </>
 }
